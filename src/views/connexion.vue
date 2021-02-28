@@ -1,24 +1,34 @@
 <template>
+  <!-- 👉 views inscription 👈-->
+
   <div class="connexion">
     <div class="login">
       <h1>Me connecter</h1>
-      <input
-        type="email"
-        name="email"
-        v-model="input.email"
-        placeholder="Votre adresse mail"
-      />
-      <input
-        type="password"
-        name="password"
-        v-model="input.password"
-        placeholder="Votre mot de passe"
-      />
-      <button class="boutonAppli" type="button" v-on:click="login()">
-        Connexion
-      </button>
-    </div>
 
+      <!--✅ 👉 Formulaire de connexion-->
+      <form @submit.prevent="validerConnexion">
+        <input
+          type="email"
+          name="email"
+          placeholder="Votre adresse mail"
+          v-model="email"
+        />
+
+        <input
+          type="password"
+          name="password"
+          placeholder="Votre mot de passe"
+          v-model="password"
+        />
+
+        <button class="boutonAppli" type="submit">
+          Me connecter
+        </button>
+      </form>
+    </div>
+    <!--➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖-->
+
+    <!--✅ 👉 Bouton vers formulaire création d’un compte-->
     <div class="creerCompte">
       <router-link to="/inscription">
         <button class="boutonAppli">
@@ -26,45 +36,62 @@
         </button></router-link
       >
     </div>
+    <!--➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖-->
+    <!-- <h3>{{ email }}</h3>
+    <h3>{{ password }}</h3> -->
   </div>
 </template>
 
 <script>
 export default {
-  name: "login",
+  name: "connexion",
   data() {
     return {
-      input: {
-        email: "",
-        password: "",
-      },
+      email: "",
+      password: "",
     };
   },
   methods: {
-    async login() {
-      //⇓⇓ URL de la requête⇓⇓.
-      let url = "http://localhost:3000/api/user/connexion";
+    async validerConnexion() {
+      //*✅👉 Récupération des informations du formulaire.
+      const formValues = {
+        email: this.email,
+        password: this.password,
+      };
+      console.log("✔️✔️✔️ 😃➖➖► Information de connexion", formValues);
+      //*➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
 
+      //*✅👉 URL où poster la requete.
+      let url = "http://localhost:3000/api/userRoute/connexion";
+
+      //*✅👉 headers de la requete.
       const headers = new Headers();
       headers.append("Content-Type", "application/json; charset=utf-8");
+      //*➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
 
-      //⇓⇓ Paramètres de la requête⇓⇓.
+      //*✅👉 Paramètres de la requête
       const parametresDeRequete = {
         method: "POST",
-        body: JSON.stringify(this.input),
+        body: JSON.stringify(formValues),
         headers: headers,
       };
+      console.log(
+        "✔️✔️✔️ 😃➖➖► Paramètres de la requête",
+        parametresDeRequete
+      );
+      //*➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
 
+      //*✅👉 La requête fetch
       const success = await fetch(url, parametresDeRequete);
-
       if (success.status == 200) {
-        console.log("=====> user logged 👍", success);
+        console.log("✔️✔️✔️ 😃➖➖► Utilisateur connecté 👍", success);
         const result = await success.json();
         console.log(result);
         window.localStorage.setItem("menuresto", JSON.stringify(result));
         this.$emit("authenticated", true);
-        this.$router.push({ name: "monCompte" });
+        this.$router.push({ name: "accueil" });
       }
+      //*➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
     },
   },
 };
