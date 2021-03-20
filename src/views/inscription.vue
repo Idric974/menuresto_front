@@ -11,6 +11,7 @@
         Pour créer votre compte, veuillez compléter le formulaire ci-dessous.
       </p>
     </div>
+    <!--➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖-->
 
     <!--✅ 👉 Formulaire de création d'un compte-->
     <div class="formulaire">
@@ -81,7 +82,7 @@ export default {
         firstname: this.firstname,
         name: this.name,
       };
-      console.log(formValues);
+      console.log("✔️✔️✔️ 😃➖➖► Information de connexion", formValues);
       //*➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
 
       //*✅👉 URL où poster la requete.
@@ -99,7 +100,10 @@ export default {
         body: JSON.stringify(formValues),
         headers: headers,
       };
-      console.log(parametresDeRequete);
+      console.log(
+        "✔️✔️✔️ 😃➖➖► Paramètres de la requête",
+        parametresDeRequete
+      );
       //*➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
 
       //*✅👉 La requête fetch
